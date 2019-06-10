@@ -22,11 +22,31 @@ func notEqual(a, b []int) bool {
 	return false
 }
 
+//func TestCountDigits(t *testing.T) {
+//	want := 5
+//	got := countDigits(12340)
+//	if got != want {
+//		t.Errorf("wanted %d input %d", want, got)
+//	}
+//}
+
 func TestCountDigits(t *testing.T) {
-	want := 5
-	got := countDigits(12340)
-	if got != want {
-		t.Errorf("wanted %d input %d", want, got)
+	tests := []struct {
+		name  string
+		input int
+		want  int
+	}{
+		{name: "positive", input: 221, want: 3},
+		{name: "negative", input: -4414, want: 4},
+		{name: "zero", input: 0, want: 1},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			response := countDigits(test.input)
+			if test.want != response {
+				t.Errorf("wanted %+v input %+v", test.want, response)
+			}
+		})
 	}
 }
 
