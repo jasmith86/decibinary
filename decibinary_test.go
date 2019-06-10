@@ -31,6 +31,7 @@ func TestCountDigits(t *testing.T) {
 		{name: "positive", input: 221, want: 3},
 		{name: "negative", input: -4414, want: 4},
 		{name: "zero", input: 0, want: 1},
+		{name: "single", input: 2, want: 1},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -78,7 +79,7 @@ func TestSolve(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			response := solve(test.input)
+			response := solveDeciBinary(test.input)
 			if notEqual(test.want, response) {
 				t.Errorf("wanted %+v input %+v", test.want, response)
 			}
