@@ -22,14 +22,6 @@ func notEqual(a, b []int) bool {
 	return false
 }
 
-//func TestCountDigits(t *testing.T) {
-//	want := 5
-//	got := countDigits(12340)
-//	if got != want {
-//		t.Errorf("wanted %d input %d", want, got)
-//	}
-//}
-
 func TestCountDigits(t *testing.T) {
 	tests := []struct {
 		name  string
