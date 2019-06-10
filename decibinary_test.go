@@ -131,6 +131,14 @@ func BenchmarkUnsliceDigits(b *testing.B) {
 	}
 }
 
+// Benchmark the sum function
+func BenchmarkSum(b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		sum([]int{9, 9, 9, 8, 4, 7, 8, 2, 7, 3, 4, 3, 4, 5, 3, 4, 2, 3})
+	}
+}
+
 // Benchmark the SolveDeciBinary function
 func benchmarkSolveDeciBinary(num int, b *testing.B) {
 	// run the Fib function b.N times
