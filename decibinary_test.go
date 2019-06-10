@@ -90,13 +90,39 @@ func TestSolveDeciBinary(t *testing.T) {
 }
 
 // Let's add some benchmarking
-func benchmarkSolveDeciBinary(n int, b *testing.B) {
+// Source: https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go
+
+// Benchmark the notEqual function
+func BenchmarkNotEqual(b *testing.B) {
 	// run the Fib function b.N times
 	for n := 0; n < b.N; n++ {
-		SolveDeciBinary(n)
+		notEqual(
+			[]int{9, 9, 9, 8, 4, 7, 8, 2, 7, 3, 4, 3, 4, 5, 3, 4, 2, 3},
+			[]int{9, 9, 9, 8, 4, 7, 8, 2, 7, 3, 4, 3, 4, 5, 3, 4, 2, 3},
+		)
 	}
 }
 
-func BenchmarkSolveDeciBinary1(b *testing.B) { benchmarkSolveDeciBinary(1, b) }
-func BenchmarkSolveDeciBinary2(b *testing.B) { benchmarkSolveDeciBinary(2342, b) }
-func BenchmarkSolveDeciBinary3(b *testing.B) { benchmarkSolveDeciBinary(999847827343453423, b) }
+// Benchmark the countDigits function
+func benchmarkTestCountDigits(num int, b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		countDigits(num)
+	}
+}
+
+//func BenchmarkTestCountDigits1(b *testing.B)    { benchmarkTestCountDigits(1, b) }
+//func BenchmarkTestCountDigits12342(b *testing.B) { benchmarkTestCountDigits(2342, b) }
+func BenchmarkTestCountDigits1BIG(b *testing.B) { benchmarkTestCountDigits(999847827343453423, b) }
+
+// Benchmark the SolveDeciBinary function
+func benchmarkSolveDeciBinary(num int, b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		SolveDeciBinary(num)
+	}
+}
+
+//func BenchmarkSolveDeciBinary1(b *testing.B)    { benchmarkSolveDeciBinary(1, b) }
+//func BenchmarkSolveDeciBinary2342(b *testing.B) { benchmarkSolveDeciBinary(2342, b) }
+func BenchmarkSolveDeciBinaryBIG(b *testing.B) { benchmarkSolveDeciBinary(999847827343453423, b) }
