@@ -72,7 +72,6 @@ func TestSolve(t *testing.T) {
 		input int
 		want  []int
 	}{
-		// TODO: test cases
 		{name: "1", input: 221, want: []int{111, 110}},
 		{name: "2", input: 214, want: []int{111, 101, 1, 1}},
 	}
