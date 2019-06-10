@@ -8,6 +8,8 @@ package main
 import (
 	"fmt"
 	"math"
+	"os"
+	"strconv"
 )
 
 // Count the number of digits in integer n.
@@ -63,6 +65,8 @@ func sum(n []int) int {
 func solveDeciBinary(n int) []int {
 	if n == 0 { // Make sure 0 can be handled.
 		return []int{0}
+	} else if n < 0 {
+		return nil
 	}
 	var dbnums []int
 	for n > 0 {
@@ -84,12 +88,16 @@ func solveDeciBinary(n int) []int {
 
 // Driver
 func main() {
-	n := 432
-	fmt.Println("slice", sliceDigits(n))
-	fmt.Println("unslice", unsliceDigits(sliceDigits(n)))
-	solution := solveDeciBinary(n)
-	fmt.Println("solveDeciBinary", solution)
-	fmt.Println("steps", len(solution))
-	fmt.Println("sum", sum(solution))
-
+	args := os.Args[1:]
+	for _, arg := range args {
+		n, err := strconv.Atoi(arg)
+		if err != nil {
+			fmt.Println("not an integer", err)
+			os.Exit(1)
+		} else {
+			fmt.Println("Input: ", n)
+			solution := solveDeciBinary(n)
+			fmt.Println("\t", len(solution), "steps:", solution)
+		}
+	}
 }
