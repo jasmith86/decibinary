@@ -115,6 +115,22 @@ func benchmarkTestCountDigits(num int, b *testing.B) {
 //func BenchmarkTestCountDigits12342(b *testing.B) { benchmarkTestCountDigits(2342, b) }
 func BenchmarkTestCountDigits1BIG(b *testing.B) { benchmarkTestCountDigits(999847827343453423, b) }
 
+// Benchmark the slice function
+func BenchmarkSliceDigits(b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		sliceDigits(999847827343453423)
+	}
+}
+
+// Benchmark the unslice function
+func BenchmarkUnsliceDigits(b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		unsliceDigits([]int{9, 9, 9, 8, 4, 7, 8, 2, 7, 3, 4, 3, 4, 5, 3, 4, 2, 3})
+	}
+}
+
 // Benchmark the SolveDeciBinary function
 func benchmarkSolveDeciBinary(num int, b *testing.B) {
 	// run the Fib function b.N times
