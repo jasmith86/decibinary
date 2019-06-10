@@ -1,3 +1,7 @@
+// Given an input integer, find the smallest combination of deci-binary/pseudo-binary numbers
+// that sum to that input. A deci-binary/pseudo-binary number is defined as any base-10
+// number whose digits are composed of only 1 or 0. For example, 10, 11, 110, 101 are all
+// deci-binary/pseudo-binary numbers.
 package main
 
 import (
@@ -5,28 +9,38 @@ import (
 	"math"
 )
 
+// Count the number of digits in integer n.
+// 		countDigits(123) -> 3
+// 		countDigits(-12) -> 2
+// 		countDigits(0)   -> 1
 func countDigits(n int) int {
-	// report 0 for negative numbers
 	count := 0
-	if n >= 0 {
-		for n != 0 {
-			n /= 10
-			count += 1
-		}
+	if n == 0 {
+		return 1
+	} else if n < 0 {
+		n *= -1
 	}
+	for n != 0 {
+		n /= 10
+		count += 1
+	}
+
 	return count
 }
 
+// Get a slice that corresponds to the digits of integer n.
+// For example, sliceDigits(1234) will return []int{1, 2, 3, 4}
 func sliceDigits(n int) []int {
 	count := countDigits(n)
 	var num []int
-	for i := count - 1; i >= 0; i-- {
+	for i := count - 1; i >= 0; i-- { // get most significant digit first, then next...
 		digit := math.Mod(float64(n)/math.Pow10(i), 10)
 		num = append(num, int(digit))
 	}
 	return num
 }
 
+// Get integer from slice of digits. Eg. []int{1,2,3} -> 123
 func unsliceDigits(n []int) int {
 	rv := 0
 	for i, v := range n {
@@ -35,6 +49,7 @@ func unsliceDigits(n []int) int {
 	return rv
 }
 
+// Simple sum for int slice.
 func sum(n []int) int {
 	total := 0
 	for _, val := range n {
@@ -43,6 +58,7 @@ func sum(n []int) int {
 	return total
 }
 
+// Compute the minimal combination of deci-binary numbers that sum to n.
 func solve(n int) []int {
 	var dbnums []int
 	for n > 0 {
@@ -62,6 +78,7 @@ func solve(n int) []int {
 	return dbnums
 }
 
+// Driver
 func main() {
 	n := 432
 	fmt.Println("slice", sliceDigits(n))
