@@ -21,6 +21,7 @@ func notEqual(a, b []int) bool {
 	//fmt.Println("all ok")
 	return false
 }
+
 func TestCountDigits(t *testing.T) {
 	want := 5
 	got := countDigits(12340)
@@ -44,9 +45,10 @@ func TestUnsliceDigits(t *testing.T) {
 		t.Errorf("wanted %+v got %+v", want, got)
 	}
 }
+
 func TestSum(t *testing.T) {
 	want := 112
-	got := sum([]int{100,10,1,1})
+	got := sum([]int{100, 10, 1, 1})
 	if want != got {
 		t.Errorf("wanted %+v got %+v", want, got)
 	}
