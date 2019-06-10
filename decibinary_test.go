@@ -26,7 +26,7 @@ func TestCountDigits(t *testing.T) {
 	want := 5
 	got := countDigits(12340)
 	if got != want {
-		t.Errorf("wanted %d got %d", want, got)
+		t.Errorf("wanted %d input %d", want, got)
 	}
 }
 
@@ -34,7 +34,7 @@ func TestSliceDigits(t *testing.T) {
 	want := []int{1, 2, 3, 4, 0}
 	got := sliceDigits(12340)
 	if notEqual(want, got) {
-		t.Errorf("wanted %+v got %+v", want, got)
+		t.Errorf("wanted %+v input %+v", want, got)
 	}
 }
 
@@ -42,7 +42,7 @@ func TestUnsliceDigits(t *testing.T) {
 	want := 12340
 	got := unsliceDigits([]int{1, 2, 3, 4, 0})
 	if want != got {
-		t.Errorf("wanted %+v got %+v", want, got)
+		t.Errorf("wanted %+v input %+v", want, got)
 	}
 }
 
@@ -50,14 +50,34 @@ func TestSum(t *testing.T) {
 	want := 112
 	got := sum([]int{100, 10, 1, 1})
 	if want != got {
-		t.Errorf("wanted %+v got %+v", want, got)
+		t.Errorf("wanted %+v input %+v", want, got)
 	}
 }
 
+//func TestSolve(t *testing.T) {
+//	want := []int{111, 110}
+//	input := solve(221)
+//	if notEqual(want, input) {
+//		t.Errorf("wanted %+v input %+v", want, input)
+//	}
+//}
+
 func TestSolve(t *testing.T) {
-	want := []int{111, 110}
-	got := solve(221)
-	if notEqual(want, got) {
-		t.Errorf("wanted %+v got %+v", want, got)
+	tests := []struct {
+		name  string
+		input int
+		want  []int
+	}{
+		// TODO: test cases
+		{name: "1", input: 221, want: []int{111, 110}},
+		{name: "2", input: 214, want: []int{111, 101, 1, 1}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			response := solve(test.input)
+			if notEqual(test.want, response) {
+				t.Errorf("wanted %+v input %+v", test.want, response)
+			}
+		})
 	}
 }
