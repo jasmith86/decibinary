@@ -54,14 +54,6 @@ func TestSum(t *testing.T) {
 	}
 }
 
-//func TestSolve(t *testing.T) {
-//	want := []int{111, 110}
-//	input := solve(221)
-//	if notEqual(want, input) {
-//		t.Errorf("wanted %+v input %+v", want, input)
-//	}
-//}
-
 func TestSolve(t *testing.T) {
 	tests := []struct {
 		name  string
