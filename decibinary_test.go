@@ -1,3 +1,5 @@
+// Tests are a good thing. Use them.
+
 package main
 
 import (
