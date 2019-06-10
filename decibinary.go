@@ -2,6 +2,7 @@
 // that sum to that input. A deci-binary/pseudo-binary number is defined as any base-10
 // number whose digits are composed of only 1 or 0. For example, 10, 11, 110, 101 are all
 // deci-binary/pseudo-binary numbers.
+// Working as of go 1.12.5
 package main
 
 import (
@@ -59,7 +60,7 @@ func sum(n []int) int {
 }
 
 // Compute the minimal combination of deci-binary numbers that sum to n.
-func solve(n int) []int {
+func solveDeciBinary(n int) []int {
 	if n == 0 { // Make sure 0 can be handled.
 		return []int{0}
 	}
@@ -86,8 +87,8 @@ func main() {
 	n := 432
 	fmt.Println("slice", sliceDigits(n))
 	fmt.Println("unslice", unsliceDigits(sliceDigits(n)))
-	solution := solve(n)
-	fmt.Println("solve", solution)
+	solution := solveDeciBinary(n)
+	fmt.Println("solveDeciBinary", solution)
 	fmt.Println("steps", len(solution))
 	fmt.Println("sum", sum(solution))
 
