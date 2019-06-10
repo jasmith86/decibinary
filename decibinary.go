@@ -60,6 +60,9 @@ func sum(n []int) int {
 
 // Compute the minimal combination of deci-binary numbers that sum to n.
 func solve(n int) []int {
+	if n == 0 { // Make sure 0 can be handled.
+		return []int{0}
+	}
 	var dbnums []int
 	for n > 0 {
 		nslice := sliceDigits(n)

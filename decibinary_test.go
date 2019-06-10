@@ -74,6 +74,7 @@ func TestSolve(t *testing.T) {
 	}{
 		{name: "1", input: 221, want: []int{111, 110}},
 		{name: "2", input: 214, want: []int{111, 101, 1, 1}},
+		{name: "0", input: 0, want: []int{0}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
