@@ -81,7 +81,7 @@ func TestSolve(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			response := solveDeciBinary(test.input)
+			response := SolveDeciBinary(test.input)
 			if notEqual(test.want, response) {
 				t.Errorf("wanted %+v input %+v", test.want, response)
 			}

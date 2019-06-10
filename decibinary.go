@@ -62,7 +62,7 @@ func sum(n []int) int {
 }
 
 // Compute the minimal combination of deci-binary numbers that sum to n.
-func solveDeciBinary(n int) []int {
+func SolveDeciBinary(n int) []int {
 	if n == 0 { // Make sure 0 can be handled.
 		return []int{0}
 	} else if n < 0 {
@@ -96,7 +96,7 @@ func main() {
 			os.Exit(1)
 		} else {
 			fmt.Println("Input: ", n)
-			solution := solveDeciBinary(n)
+			solution := SolveDeciBinary(n)
 			fmt.Println("\t", len(solution), "steps:", solution)
 		}
 	}
