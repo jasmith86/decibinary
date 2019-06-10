@@ -6,7 +6,7 @@ import (
 
 // notEqual tells whether a and b contain the same elements.
 // A nil argument is equivalent to an empty slice.
-// Source https://yourbasic.org/golang/compare-slices/
+// Source for notEqual: https://yourbasic.org/golang/compare-slices/
 func notEqual(a, b []int) bool {
 	if len(a) != len(b) {
 		//fmt.Printf("diff len %+v %+v\n", len(a), len(b))
