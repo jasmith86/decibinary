@@ -69,7 +69,7 @@ func TestSum(t *testing.T) {
 	}
 }
 
-func TestSolve(t *testing.T) {
+func TestSolveDeciBinary(t *testing.T) {
 	tests := []struct {
 		name  string
 		input int
@@ -88,3 +88,15 @@ func TestSolve(t *testing.T) {
 		})
 	}
 }
+
+// Let's add some benchmarking
+func benchmarkSolveDeciBinary(n int, b *testing.B) {
+	// run the Fib function b.N times
+	for n := 0; n < b.N; n++ {
+		SolveDeciBinary(n)
+	}
+}
+
+func BenchmarkSolveDeciBinary1(b *testing.B) { benchmarkSolveDeciBinary(1, b) }
+func BenchmarkSolveDeciBinary2(b *testing.B) { benchmarkSolveDeciBinary(2342, b) }
+func BenchmarkSolveDeciBinary3(b *testing.B) { benchmarkSolveDeciBinary(999847827343453423, b) }
