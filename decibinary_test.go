@@ -6,24 +6,6 @@ import (
 	"testing"
 )
 
-// notEqual tells whether a and b contain the same elements.
-// A nil argument is equivalent to an empty slice.
-// Source for notEqual: https://yourbasic.org/golang/compare-slices/
-func notEqual(a, b []int) bool {
-	if len(a) != len(b) {
-		//fmt.Printf("diff len %+v %+v\n", len(a), len(b))
-		return true
-	}
-	for i, v := range a {
-		if v != b[i] {
-			//fmt.Printf("diff val %+v %+v\n", v, b[i])
-			return true
-		}
-	}
-	//fmt.Println("all ok")
-	return false
-}
-
 func TestCountDigits(t *testing.T) {
 	tests := []struct {
 		name  string
