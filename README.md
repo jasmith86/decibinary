@@ -29,6 +29,8 @@ $ ./decibinary 123 0 99 -1
   	 0 steps: []
 ```
 
+You can also run the benchmarks in decibinary_test.go by running `go test -bench=.`.
+
 ## Examples
 * `123` would return `[111 11 1]`
 * `91` would return `[11 10 10 10 10 10 10 10 10]`
