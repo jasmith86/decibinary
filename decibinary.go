@@ -36,11 +36,11 @@ func countDigits(n int) int {
 func sliceDigits(n int) []int {
 	count := countDigits(n)
 	var num []int
-	for i := count - 1; i >= 0; i-- { // get most significant digit first, then next...
+	for i := count - 1; i >= 0; i-- { // get least significant digit first, then next...
 		num = append(num, n%10)
 		n /= 10
 	}
-	for i, j := 0, count-1; i < j; i, j = i+1, j-1 {
+	for i, j := 0, count-1; i < j; i, j = i+1, j-1 { // reverse the slice
 		num[i], num[j] = num[j], num[i]
 	}
 	return num
