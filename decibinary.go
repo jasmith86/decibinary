@@ -107,18 +107,31 @@ func SolveDeciBinary(n int) []int {
 	return allFactors
 }
 
+// channel wrapper
+func chanSolveDeciBinary(ans chan []int, n int) {
+	ans <- SolveDeciBinary(n)
+}
+
 // Driver
 func main() {
 	args := os.Args[1:]
+	answers := make(chan []int)
+	numgo := 0
 	for _, arg := range args {
 		n, err := strconv.Atoi(arg)
 		if err != nil {
-			fmt.Println("not an integer", err)
-			os.Exit(1)
+			fmt.Println("not an integer... ignoring", err)
+			//os.Exit(1)
 		} else {
-			fmt.Println("Input: ", n)
-			solution := SolveDeciBinary(n)
-			fmt.Println("\t", len(solution), "steps:", solution)
+			go chanSolveDeciBinary(answers, n)
+			numgo += 1
+			//fmt.Println("Input: ", n)
+			//solution := SolveDeciBinary(n)
+			//fmt.Println("\t", len(solution), "steps:", solution)
 		}
+	}
+	for i := 0; i < numgo; i++ {
+		solution := <-answers
+		fmt.Println("\t", len(solution), "steps:", solution)
 	}
 }
