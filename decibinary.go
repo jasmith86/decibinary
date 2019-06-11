@@ -69,22 +69,21 @@ func SolveDeciBinary(n int) []int {
 	if n == 0 { // Make sure 0 can be handled.
 		return []int{0}
 	}
-	var dbnums []int
-	for n > 0 {
-		nslice := sliceDigits(n)
-		var dbnum []int
-		for ind, digit := range nslice {
+	var allFactors []int
+	digits := sliceDigits(n)
+	for unsliceDigits(digits) > 0 {
+		var curFactor []int
+		for ind, digit := range digits {
 			if digit > 0 {
-				dbnum = append(dbnum, 1)
-				nslice[ind] -= 1
+				curFactor = append(curFactor, 1)
+				digits[ind] -= 1
 			} else {
-				dbnum = append(dbnum, 0)
+				curFactor = append(curFactor, 0)
 			}
 		}
-		dbnums = append(dbnums, unsliceDigits(dbnum))
-		n = unsliceDigits(nslice)
+		allFactors = append(allFactors, unsliceDigits(curFactor))
 	}
-	return dbnums
+	return allFactors
 }
 
 // Driver
