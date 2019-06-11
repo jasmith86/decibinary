@@ -65,8 +65,6 @@ func sum(n []int) int {
 func SolveDeciBinary(n int) []int {
 	if n == 0 { // Make sure 0 can be handled.
 		return []int{0}
-	} else if n < 0 {
-		return nil
 	}
 	var dbnums []int
 	for n > 0 {
