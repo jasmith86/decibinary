@@ -7,7 +7,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"os"
 	"strconv"
 )
@@ -31,26 +30,31 @@ func countDigits(n int) int {
 	return count
 }
 
+// Reverse a slice. Takes point to slice as arg.
+func reverse(n *[]int) {
+	num := *n
+	for i, j := 0, len(num)-1; i < j; i, j = i+1, j-1 { // reverse the slice
+		num[i], num[j] = num[j], num[i]
+	}
+}
+
 // Get a slice that corresponds to the digits of integer n.
 // For example, sliceDigits(1234) will return []int{1, 2, 3, 4}
 func sliceDigits(n int) []int {
-	count := countDigits(n)
 	var num []int
-	for i := count - 1; i >= 0; i-- { // get least significant digit first, then next...
+	for n > 0 {
 		num = append(num, n%10)
 		n /= 10
 	}
-	for i, j := 0, count-1; i < j; i, j = i+1, j-1 { // reverse the slice
-		num[i], num[j] = num[j], num[i]
-	}
-	return num
+	reverse(&num)
+	return num //reverse(num)
 }
 
 // Get integer from slice of digits. Eg. []int{1,2,3} -> 123
 func unsliceDigits(n []int) int {
 	rv := 0
-	for i, v := range n {
-		rv += int(float64(v) * math.Pow10(len(n)-1-i))
+	for _, v := range n {
+		rv = (rv * 10) + v // shift << 1 and add digit
 	}
 	return rv
 }
