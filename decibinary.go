@@ -77,9 +77,9 @@ func SolveDeciBinary(n int) []int {
 			if digit > 0 {
 				curFactor = append(curFactor, 1)
 				digits[ind] -= 1
-			} else {
-				curFactor = append(curFactor, 0)
+				continue
 			}
+			curFactor = append(curFactor, 0)
 		}
 		allFactors = append(allFactors, unsliceDigits(curFactor))
 	}
