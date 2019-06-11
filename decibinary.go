@@ -70,19 +70,20 @@ func SolveDeciBinary(n int) []int {
 		return []int{0}
 	}
 	var allFactors []int
-	digits := sliceDigits(n)
-	var curFactor []int
-	for unsliceDigits(digits) > 0 {
-		curFactor = nil
-		for ind, digit := range digits {
-			if digit > 0 {
-				curFactor = append(curFactor, 1)
-				digits[ind] -= 1
-				continue
+	for n > 0 {
+		temp := n
+		curFactor := 0
+		digit := 1
+		for temp > 0 { // build current factor
+			rem := temp % 10
+			temp /= 10
+			if rem != 0 {
+				curFactor += digit
 			}
-			curFactor = append(curFactor, 0)
+			digit *= 10
 		}
-		allFactors = append(allFactors, unsliceDigits(curFactor))
+		allFactors = append(allFactors, curFactor)
+		n -= curFactor
 	}
 	return allFactors
 }
