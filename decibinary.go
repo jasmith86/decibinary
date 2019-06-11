@@ -71,8 +71,9 @@ func SolveDeciBinary(n int) []int {
 	}
 	var allFactors []int
 	digits := sliceDigits(n)
+	var curFactor []int
 	for unsliceDigits(digits) > 0 {
-		var curFactor []int
+		curFactor = nil
 		for ind, digit := range digits {
 			if digit > 0 {
 				curFactor = append(curFactor, 1)
