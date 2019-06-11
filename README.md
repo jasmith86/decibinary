@@ -1,6 +1,6 @@
 **Disclaimer:** *I'm new to golang and just starting to learn it, so feel free to give feedback :)*
 
-# Basics of decibinary.go
+# The Basics
 Define a deci-binary/pseudo-binary number as any base-10 number whose digits are composed of only `1` or `0`. For example, `10, 11, 110, 101` are all deci-binary/pseudo-binary numbers. 
 
 Given an input integer `n`, find the minimal combination of deci-binary/pseudo-binary numbers that sum to that input. For example, `n = 23` would return `[11, 11, 1]`. 
