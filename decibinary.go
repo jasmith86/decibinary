@@ -43,16 +43,13 @@ func reverse(n *[]int) {
 // Source for notEqual: https://yourbasic.org/golang/compare-slices/
 func notEqual(a, b []int) bool {
 	if len(a) != len(b) {
-		//fmt.Printf("diff len %+v %+v\n", len(a), len(b))
 		return true
 	}
 	for i, v := range a {
 		if v != b[i] {
-			//fmt.Printf("diff val %+v %+v\n", v, b[i])
 			return true
 		}
 	}
-	//fmt.Println("all ok")
 	return false
 }
 
