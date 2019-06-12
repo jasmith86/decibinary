@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+// TestFanOutWorker assures the worker puts the correct answer into
+// the answers channel.
 func TestFanOutWorker(t *testing.T) {
 	tests := []struct {
 		name  string
@@ -36,7 +38,8 @@ func TestFanOutWorker(t *testing.T) {
 	}
 }
 
-// TestFanInWorker currently only tests that fanInWorker
+// TestFanInWorker currently only tests that fanInWorker sends true to done,
+// it does not test what is printed.
 func TestFanInWorker(t *testing.T) {
 	tests := []struct {
 		name  string
