@@ -77,11 +77,10 @@ func main() {
 		n, err := strconv.Atoi(arg)
 		if err != nil {
 			fmt.Println("ignoring non-integer", err)
+			continue
 			//os.Exit(1)
-		} else {
-			jobs <- n // add each input as job
-			//time.Sleep(10 * time.Millisecond)
 		}
+		jobs <- n // add each input as job
 	}
 	close(jobs)
 	for i := 1; i <= numWorkers; i++ { // wait for fanOutWorkers to all finish
