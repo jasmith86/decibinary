@@ -108,39 +108,56 @@ func SolveDeciBinary(n int) []int {
 }
 
 // worker gets job and puts answer in answers channel
-func worker(workerID int, jobs chan int, answers chan []int) {
+func worker(workerID int, jobs chan int, answers chan []int, done chan bool) {
 	for j := range jobs {
-		fmt.Println(workerID, "starting job", j)
+		fmt.Println(workerID, "starting  job", j)
 		answers <- SolveDeciBinary(j)
+		fmt.Println(workerID, "finishing job", j)
 	}
+	done <- true
+}
+
+//
+func printAnswers(answers chan []int, done chan bool) {
+	for solution := range answers {
+		//solution := <-answers
+		fmt.Println("\t", len(solution), "steps:", solution)
+	}
+	fmt.Println("done printing")
+	done <- true
 }
 
 // Driver
 func main() {
+	// @TODO handle more inputs right now must be less than buffer size of jobs & answers
 	args := os.Args[1:]
 
-	jobs := make(chan int, 100) // create in/out channels
-	answers := make(chan []int, 100)
+	jobs := make(chan int) // create in/out channels
+	answers := make(chan []int)
+	done := make(chan bool)
 
-	for w := 1; w <= 3; w++ { // create workers
-		go worker(w, jobs, answers)
+	for w := 1; w <= 4; w++ { // create workers
+		go worker(w, jobs, answers, done)
 	}
+
+	go printAnswers(answers, done)
 
 	numgo := 0 // number of go routines
 	for _, arg := range args {
 		n, err := strconv.Atoi(arg)
 		if err != nil {
-			fmt.Println("not an integer... ignoring", err)
+			fmt.Println("ignoring non-integer", err)
 			//os.Exit(1)
 		} else {
 			jobs <- n // add each input as job
 			numgo += 1
+			//time.Sleep(10 * time.Millisecond)
 		}
 	}
-
 	close(jobs)
-	for i := 0; i < numgo; i++ {
-		solution := <-answers
-		fmt.Println("\t", len(solution), "steps:", solution)
+	for i := 1; i <= 4; i++ {
+		<-done
 	}
+	close(answers)
+	<-done
 }
