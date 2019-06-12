@@ -58,6 +58,7 @@ func fanInPrinter(answers chan []int, done chan bool) {
 // Driver
 func main() {
 	// @TODO handle more inputs right now must be less than buffer size of jobs & answers
+	// @TODO create struct so we know what answer correlates to what input
 	const numWorkers = 4
 	args := os.Args[1:]
 

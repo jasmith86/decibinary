@@ -36,6 +36,40 @@ func TestFanOutWorker(t *testing.T) {
 	}
 }
 
+// TestFanInWorker currently only tests that fanInWorker
+func TestFanInWorker(t *testing.T) {
+	tests := []struct {
+		name  string
+		input int
+		want  bool
+	}{
+		{name: "1", input: 221, want: true},
+		{name: "2", input: 214, want: true},
+		{name: "0", input: 0, want: true},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			jobs := make(chan int, 10)
+			jobs <- test.input
+			answers := make(chan []int, 10)
+			done := make(chan bool, 10)
+			go fanInPrinter(answers, done)
+			go fanOutWorker(jobs, answers, done)
+			close(jobs)
+			response := <-done
+			if response != true {
+				t.Errorf("wanted done to be true for fanOut")
+			}
+			close(answers)
+			response = <-done
+			if response != true {
+				t.Errorf("wanted done to be true for fanIn")
+			}
+			close(done)
+		})
+	}
+}
+
 func TestSolveDeciBinary(t *testing.T) {
 	tests := []struct {
 		name  string
