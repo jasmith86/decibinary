@@ -41,6 +41,7 @@ func TestFanOutWorker(t *testing.T) {
 // TestFanInWorker currently only tests that fanInWorker sends true to done,
 // it does not test what is printed.
 func TestFanInWorker(t *testing.T) {
+	// @TODO DI for testing Println?
 	tests := []struct {
 		name  string
 		input int

@@ -48,6 +48,7 @@ func fanOutWorker(jobs chan int, answers chan []int, done chan bool) { // remove
 
 // fanInPrinter collects finished jobs (answers) and prints them
 func fanInPrinter(answers chan []int, done chan bool) {
+	// @TODO DI for testing Println?
 	for solution := range answers {
 		fmt.Println("\t", len(solution), "steps:", solution)
 	}
