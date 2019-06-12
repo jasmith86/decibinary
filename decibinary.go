@@ -120,7 +120,6 @@ func worker(workerID int, jobs chan int, answers chan []int, done chan bool) {
 //
 func printAnswers(answers chan []int, done chan bool) {
 	for solution := range answers {
-		//solution := <-answers
 		fmt.Println("\t", len(solution), "steps:", solution)
 	}
 	fmt.Println("done printing")
@@ -142,7 +141,6 @@ func main() {
 
 	go printAnswers(answers, done)
 
-	numgo := 0 // number of go routines
 	for _, arg := range args {
 		n, err := strconv.Atoi(arg)
 		if err != nil {
@@ -150,7 +148,6 @@ func main() {
 			//os.Exit(1)
 		} else {
 			jobs <- n // add each input as job
-			numgo += 1
 			//time.Sleep(10 * time.Millisecond)
 		}
 	}
