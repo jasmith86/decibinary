@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestSolveFanOutWorker(t *testing.T) {
+func TestFanOutWorker(t *testing.T) {
 	tests := []struct {
 		name  string
 		input int
