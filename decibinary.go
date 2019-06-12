@@ -78,9 +78,8 @@ func main() {
 		if err != nil {
 			fmt.Println("ignoring non-integer", err)
 			continue
-			//os.Exit(1)
 		}
-		jobs <- n // add each input as job
+		jobs <- n // add each valid input as job
 	}
 	close(jobs)
 	for i := 1; i <= numWorkers; i++ { // wait for fanOutWorkers to all finish

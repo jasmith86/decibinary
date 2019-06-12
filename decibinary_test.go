@@ -53,7 +53,7 @@ func TestFanInWorker(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			jobs := make(chan int, 10)
+			jobs := make(chan int, 10) // TODO simplify test procedure
 			jobs <- test.input
 			answers := make(chan []int, 10)
 			done := make(chan bool, 10)
