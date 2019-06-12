@@ -1,3 +1,4 @@
+// Utility functions for decibinary
 package main
 
 // Count the number of digits in integer n.
@@ -63,6 +64,11 @@ func unsliceDigits(n []int) int {
 	return rv
 }
 
-//func main() {
-//
-//}
+// Simple sum for int slice.
+func sum(n []int) int {
+	total := 0
+	for _, val := range n {
+		total += val
+	}
+	return total
+}

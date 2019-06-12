@@ -11,15 +11,6 @@ import (
 	"strconv"
 )
 
-// Simple sum for int slice.
-func sum(n []int) int {
-	total := 0
-	for _, val := range n {
-		total += val
-	}
-	return total
-}
-
 // Compute the minimal combination of deci-binary numbers that sum to n.
 func SolveDeciBinary(n int) []int {
 	if n == 0 { // Make sure 0 can be handled.
