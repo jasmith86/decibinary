@@ -108,28 +108,41 @@ func SolveDeciBinary(n int) []int {
 }
 
 // channel wrapper
-func chanSolveDeciBinary(ans chan []int, n int) {
-	ans <- SolveDeciBinary(n)
+func chanSolveDeciBinary(job int, answers chan []int) {
+	answers <- SolveDeciBinary(job)
+}
+
+func worker(workerID int, jobs chan int, answers chan []int) {
+	for j := range jobs {
+		fmt.Println(workerID, "starting job", j)
+		chanSolveDeciBinary(j, answers)
+	}
 }
 
 // Driver
 func main() {
 	args := os.Args[1:]
-	answers := make(chan []int)
-	numgo := 0
+
+	jobs := make(chan int, 100) // create in/out channels
+	answers := make(chan []int, 100)
+
+	for w := 1; w <= 3; w++ { // create workers
+		go worker(w, jobs, answers)
+	}
+
+	numgo := 0 // number of go routines
 	for _, arg := range args {
 		n, err := strconv.Atoi(arg)
 		if err != nil {
 			fmt.Println("not an integer... ignoring", err)
 			//os.Exit(1)
 		} else {
-			go chanSolveDeciBinary(answers, n)
+			jobs <- n // add each input as job
 			numgo += 1
-			//fmt.Println("Input: ", n)
-			//solution := SolveDeciBinary(n)
-			//fmt.Println("\t", len(solution), "steps:", solution)
 		}
 	}
+
+	close(jobs)
 	for i := 0; i < numgo; i++ {
 		solution := <-answers
 		fmt.Println("\t", len(solution), "steps:", solution)
