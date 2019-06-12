@@ -1,4 +1,5 @@
-// Utility functions for decibinary
+// Utility functions for decibinary. Most of the functions are not used with the
+// most recent implementation of decibinary.
 package main
 
 // Count the number of digits in integer n.
