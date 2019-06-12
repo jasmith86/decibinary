@@ -107,18 +107,19 @@ func SolveDeciBinary(n int) []int {
 	return allFactors
 }
 
-// worker gets job and puts answer in answers channel
-func worker(workerID int, jobs chan int, answers chan []int, done chan bool) {
+// fanOutWorker gets job and puts answer in answers channel
+func fanOutWorker(workerID int, jobs chan int, answers chan []int, done chan bool) {
 	for j := range jobs {
 		fmt.Println(workerID, "starting  job", j)
 		answers <- SolveDeciBinary(j)
 		fmt.Println(workerID, "finishing job", j)
 	}
+	fmt.Println(workerID, "done")
 	done <- true
 }
 
 //
-func printAnswers(answers chan []int, done chan bool) {
+func fanInPrinter(answers chan []int, done chan bool) {
 	for solution := range answers {
 		fmt.Println("\t", len(solution), "steps:", solution)
 	}
@@ -129,17 +130,18 @@ func printAnswers(answers chan []int, done chan bool) {
 // Driver
 func main() {
 	// @TODO handle more inputs right now must be less than buffer size of jobs & answers
+	const numWorkers = 4
 	args := os.Args[1:]
 
 	jobs := make(chan int) // create in/out channels
 	answers := make(chan []int)
 	done := make(chan bool)
 
-	for w := 1; w <= 4; w++ { // create workers
-		go worker(w, jobs, answers, done)
+	for w := 1; w <= numWorkers; w++ { // create workers
+		go fanOutWorker(w, jobs, answers, done)
 	}
 
-	go printAnswers(answers, done)
+	go fanInPrinter(answers, done)
 
 	for _, arg := range args {
 		n, err := strconv.Atoi(arg)
@@ -152,9 +154,9 @@ func main() {
 		}
 	}
 	close(jobs)
-	for i := 1; i <= 4; i++ {
+	for i := 1; i <= numWorkers; i++ { // wait for fanOutWorkers to all finish
 		<-done
 	}
 	close(answers)
-	<-done
+	<-done // wait til printing is finished
 }
