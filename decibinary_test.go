@@ -20,7 +20,7 @@ func TestCountDigits(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			response := countDigits(test.input)
 			if test.want != response {
-				t.Errorf("wanted %+v input %+v", test.want, response)
+				t.Errorf("wanted %+v inputA %+v", test.want, response)
 			}
 		})
 	}
@@ -30,7 +30,7 @@ func TestSliceDigits(t *testing.T) {
 	want := []int{1, 2, 3, 4, 0}
 	got := sliceDigits(12340)
 	if notEqual(want, got) {
-		t.Errorf("wanted %+v input %+v", want, got)
+		t.Errorf("wanted %+v inputA %+v", want, got)
 	}
 }
 
@@ -38,7 +38,7 @@ func TestUnsliceDigits(t *testing.T) {
 	want := 12340
 	got := unsliceDigits([]int{1, 2, 3, 4, 0})
 	if want != got {
-		t.Errorf("wanted %+v input %+v", want, got)
+		t.Errorf("wanted %+v inputA %+v", want, got)
 	}
 }
 
@@ -46,7 +46,28 @@ func TestSum(t *testing.T) {
 	want := 112
 	got := sum([]int{100, 10, 1, 1})
 	if want != got {
-		t.Errorf("wanted %+v input %+v", want, got)
+		t.Errorf("wanted %+v inputA %+v", want, got)
+	}
+}
+
+func TestNotEqual(t *testing.T) {
+	tests := []struct {
+		name   string
+		inputA []int
+		inputB []int
+		want   bool
+	}{
+		{name: "are equal", inputA: []int{111, 110}, inputB: []int{111, 110}, want: false},
+		{name: "diff length", inputA: []int{110}, inputB: []int{111, 110}, want: true},
+		{name: "diff values", inputA: []int{111, 123}, inputB: []int{111, 110}, want: true},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			response := notEqual(test.inputA, test.inputB)
+			if response != test.want {
+				t.Errorf("wanted %+v inputA %+v", test.want, response)
+			}
+		})
 	}
 }
 
@@ -64,7 +85,7 @@ func TestSolveDeciBinary(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			response := SolveDeciBinary(test.input)
 			if notEqual(test.want, response) {
-				t.Errorf("wanted %+v input %+v", test.want, response)
+				t.Errorf("wanted %+v inputA %+v", test.want, response)
 			}
 		})
 	}
