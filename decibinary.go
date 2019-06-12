@@ -11,46 +11,58 @@ import (
 	"strconv"
 )
 
+type DeciBinary struct {
+	number   int
+	response []int
+}
+
 // Compute the minimal combination of deci-binary numbers that sum to n.
-func SolveDeciBinary(n int) []int {
+func SolveDeciBinary(dbnum *DeciBinary) {
+	//n := *dbnum
+	n := dbnum.number
 	if n == 0 { // Make sure 0 can be handled.
-		return []int{0}
-	}
-	var allFactors []int
-	for n > 0 {
-		temp := n
-		curFactor := 0
-		digit := 1
-		for temp > 0 { // build current factor
-			rem := temp % 10
-			temp /= 10
-			if rem != 0 {
-				curFactor += digit
+		dbnum.response = []int{0}
+		//return []int{0}
+	} else { // TODO eliminate this else
+		var allFactors []int
+		for n > 0 {
+			temp := n
+			curFactor := 0
+			digit := 1
+			for temp > 0 { // build current factor
+				rem := temp % 10
+				temp /= 10
+				if rem != 0 {
+					curFactor += digit
+				}
+				digit *= 10
 			}
-			digit *= 10
+			allFactors = append(allFactors, curFactor)
+			n -= curFactor
 		}
-		allFactors = append(allFactors, curFactor)
-		n -= curFactor
+		dbnum.response = allFactors
+		//fmt.Println(allFactors, dbnum.number, dbnum.response)
+		//return allFactors
 	}
-	return allFactors
 }
 
 // fanOutWorker gets job and puts answer in answers channel
-func fanOutWorker(jobs chan int, answers chan []int, done chan bool) { // removed unused workerID int
+func fanOutWorker(jobs chan DeciBinary, answers chan DeciBinary, done chan bool) { // removed unused workerID int
 	for j := range jobs {
-		//fmt.Println(workerID, "starting  job", j)
-		answers <- SolveDeciBinary(j)
-		//fmt.Println(workerID, "finishing job", j)
+		//fmt.Println("starting  job", j)
+		SolveDeciBinary(&j)
+		answers <- j
+		//fmt.Println("finishing job", j)
 	}
 	//fmt.Println(workerID, "done")
 	done <- true
 }
 
 // fanInPrinter collects finished jobs (answers) and prints them
-func fanInPrinter(answers chan []int, done chan bool) {
+func fanInPrinter(answers chan DeciBinary, done chan bool) {
 	// @TODO DI for testing Println?
 	for solution := range answers {
-		fmt.Println("\t", len(solution), "steps:", solution)
+		fmt.Println(solution.number, "\t", len(solution.response), "steps:", solution.response)
 	}
 	fmt.Println("done printing")
 	done <- true
@@ -58,13 +70,11 @@ func fanInPrinter(answers chan []int, done chan bool) {
 
 // Driver
 func main() {
-	// @TODO handle more inputs right now must be less than buffer size of jobs & answers
-	// @TODO create struct so we know what answer correlates to what input
 	const numWorkers = 4
 	args := os.Args[1:]
 
-	jobs := make(chan int) // create in/out channels
-	answers := make(chan []int)
+	jobs := make(chan DeciBinary) // create in/out channels
+	answers := make(chan DeciBinary)
 	done := make(chan bool)
 
 	for w := 1; w <= numWorkers; w++ { // create workers
@@ -79,7 +89,8 @@ func main() {
 			fmt.Println("ignoring non-integer", err)
 			continue
 		}
-		jobs <- n // add each valid input as job
+		jobs <- DeciBinary{number: n} // add each valid input as job
+		//jobs <- n // add each valid input as job
 	}
 	close(jobs)
 	for i := 1; i <= numWorkers; i++ { // wait for fanOutWorkers to all finish

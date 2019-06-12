@@ -5,23 +5,43 @@ import (
 	"testing"
 )
 
+func TestSolveDeciBinary(t *testing.T) {
+	tests := []struct {
+		name  string
+		input DeciBinary
+		want  []int
+	}{
+		{name: "1", input: DeciBinary{number: 221, response: nil}, want: []int{111, 110}},
+		{name: "2", input: DeciBinary{number: 214, response: nil}, want: []int{111, 101, 1, 1}},
+		{name: "0", input: DeciBinary{number: 0, response: nil}, want: []int{0}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			SolveDeciBinary(&test.input)
+			if notEqual(test.want, test.input.response) {
+				t.Errorf("wanted %+v inputA %+v", test.want, test.input.response)
+			}
+		})
+	}
+}
+
 // TestFanOutWorker assures the worker puts the correct answer into
 // the answers channel.
 func TestFanOutWorker(t *testing.T) {
 	tests := []struct {
 		name  string
-		input int
+		input DeciBinary
 		want  []int
 	}{
-		{name: "1", input: 221, want: []int{111, 110}},
-		{name: "2", input: 214, want: []int{111, 101, 1, 1}},
-		{name: "0", input: 0, want: []int{0}},
+		{name: "1", input: DeciBinary{number: 221}, want: []int{111, 110}},
+		{name: "2", input: DeciBinary{number: 214}, want: []int{111, 101, 1, 1}},
+		{name: "0", input: DeciBinary{number: 0}, want: []int{0}},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			jobs := make(chan int, 10)
+			jobs := make(chan DeciBinary, 10)
 			jobs <- test.input
-			answers := make(chan []int, 10)
+			answers := make(chan DeciBinary, 10)
 			done := make(chan bool, 10)
 			go fanOutWorker(jobs, answers, done)
 			response := <-answers
@@ -31,7 +51,7 @@ func TestFanOutWorker(t *testing.T) {
 			}
 			close(answers)
 			close(done)
-			if notEqual(test.want, response) {
+			if notEqual(test.want, response.response) {
 				t.Errorf("wanted %+v inputA %+v", test.want, response)
 			}
 		})
@@ -44,18 +64,18 @@ func TestFanInWorker(t *testing.T) {
 	// @TODO DI for testing Println?
 	tests := []struct {
 		name  string
-		input int
+		input DeciBinary
 		want  bool
 	}{
-		{name: "1", input: 221, want: true},
-		{name: "2", input: 214, want: true},
-		{name: "0", input: 0, want: true},
+		{name: "1", input: DeciBinary{number: 221}, want: true},
+		{name: "2", input: DeciBinary{number: 214}, want: true},
+		{name: "0", input: DeciBinary{number: 0}, want: true},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			jobs := make(chan int, 10) // TODO simplify test procedure
+			jobs := make(chan DeciBinary, 10) // TODO simplify test procedure
 			jobs <- test.input
-			answers := make(chan []int, 10)
+			answers := make(chan DeciBinary, 10)
 			done := make(chan bool, 10)
 			go fanInPrinter(answers, done)
 			go fanOutWorker(jobs, answers, done)
@@ -74,26 +94,6 @@ func TestFanInWorker(t *testing.T) {
 	}
 }
 
-func TestSolveDeciBinary(t *testing.T) {
-	tests := []struct {
-		name  string
-		input int
-		want  []int
-	}{
-		{name: "1", input: 221, want: []int{111, 110}},
-		{name: "2", input: 214, want: []int{111, 101, 1, 1}},
-		{name: "0", input: 0, want: []int{0}},
-	}
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			response := SolveDeciBinary(test.input)
-			if notEqual(test.want, response) {
-				t.Errorf("wanted %+v inputA %+v", test.want, response)
-			}
-		})
-	}
-}
-
 // Let's add some benchmarking
 // Source: https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go
 
@@ -101,7 +101,7 @@ func TestSolveDeciBinary(t *testing.T) {
 func benchmarkSolveDeciBinary(num int, b *testing.B) {
 	// run the Fib function b.N times
 	for n := 0; n < b.N; n++ {
-		SolveDeciBinary(num)
+		SolveDeciBinary(&DeciBinary{number: num})
 	}
 }
 
