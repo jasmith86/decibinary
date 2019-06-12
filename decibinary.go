@@ -64,7 +64,7 @@ func fanInPrinter(answers chan DeciBinary, done chan bool) {
 	for solution := range answers {
 		fmt.Println(solution.number, "\t", len(solution.response), "steps:", solution.response)
 	}
-	fmt.Println("done printing")
+	//fmt.Println("done printing")
 	done <- true
 }
 
