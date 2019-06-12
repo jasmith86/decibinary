@@ -107,15 +107,11 @@ func SolveDeciBinary(n int) []int {
 	return allFactors
 }
 
-// channel wrapper
-func chanSolveDeciBinary(job int, answers chan []int) {
-	answers <- SolveDeciBinary(job)
-}
-
+// worker gets job and puts answer in answers channel
 func worker(workerID int, jobs chan int, answers chan []int) {
 	for j := range jobs {
 		fmt.Println(workerID, "starting job", j)
-		chanSolveDeciBinary(j, answers)
+		answers <- SolveDeciBinary(j)
 	}
 }
 
