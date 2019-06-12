@@ -38,9 +38,9 @@ func SolveDeciBinary(n int) []int {
 // fanOutWorker gets job and puts answer in answers channel
 func fanOutWorker(workerID int, jobs chan int, answers chan []int, done chan bool) {
 	for j := range jobs {
-		fmt.Println(workerID, "starting  job", j)
+		//fmt.Println(workerID, "starting  job", j)
 		answers <- SolveDeciBinary(j)
-		fmt.Println(workerID, "finishing job", j)
+		//fmt.Println(workerID, "finishing job", j)
 	}
 	fmt.Println(workerID, "done")
 	done <- true
