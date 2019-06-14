@@ -47,7 +47,7 @@ func SolveDeciBinary(dbnum *DeciBinary) {
 }
 
 // fanOutWorker gets job and puts answer in answers channel
-func fanOutWorker(jobs chan DeciBinary, answers chan DeciBinary, done chan bool) { // removed unused workerID int
+func fanOutWorker(jobs <-chan DeciBinary, answers chan<- DeciBinary, done chan bool) { // removed unused workerID int
 	for j := range jobs {
 		//fmt.Println("starting  job", j)
 		SolveDeciBinary(&j)
@@ -59,7 +59,7 @@ func fanOutWorker(jobs chan DeciBinary, answers chan DeciBinary, done chan bool)
 }
 
 // fanInPrinter collects finished jobs (answers) and prints them
-func fanInPrinter(answers chan DeciBinary, done chan bool) {
+func fanInPrinter(answers <-chan DeciBinary, done chan<- bool) {
 	// @TODO DI for testing Println?
 	for solution := range answers {
 		fmt.Println(solution.number, "\t", len(solution.response), "steps:", solution.response)
