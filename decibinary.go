@@ -47,7 +47,7 @@ func SolveDeciBinary(dbnum *DeciBinary) {
 }
 
 // fanOutWorker gets job and puts answer in answers channel
-func fanOutWorker(jobs <-chan DeciBinary, answers chan<- DeciBinary, done chan bool) { // removed unused workerID int
+func fanOutWorker(jobs <-chan DeciBinary, answers chan<- DeciBinary, done chan<- bool) { // removed unused workerID int
 	for j := range jobs {
 		//fmt.Println("starting  job", j)
 		SolveDeciBinary(&j)
